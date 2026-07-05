@@ -6,7 +6,7 @@ import AddBookForm from '../components/AddBookForm';
 import IssueBookForm from '../components/IssueBookForm';
 import OverviewDashboard from '../components/OverviewDashboard';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://lm-4nya.onrender.com/api';
 
 const Dashboard = () => {
   const { token, logout } = useContext(AuthContext);
