@@ -5,17 +5,12 @@ import { BookOpen, PlusCircle, BookmarkCheck, LogOut, User, Library, Shield, Lay
 const Sidebar = ({ activeTab, setActiveTab }) => {
   const { user, logout } = useContext(AuthContext);
 
-  const baseItems = [
+  const menuItems = [
     { id: 'overview', name: 'Overview Home', icon: LayoutDashboard },
     { id: 'list', name: 'Book Inventory', icon: BookOpen },
-  ];
-
-  const adminItems = [
     { id: 'add', name: 'Add New Book', icon: PlusCircle },
     { id: 'issue', name: 'Issue Book Loan', icon: BookmarkCheck },
   ];
-
-  const menuItems = user?.role === 'Admin' ? [...baseItems, ...adminItems] : baseItems;
 
   return (
     <aside className="w-80 bg-[#0f172a] border-r border-gray-800/60 flex flex-col min-h-screen text-gray-300">
