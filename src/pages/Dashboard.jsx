@@ -9,7 +9,7 @@ import OverviewDashboard from '../components/OverviewDashboard';
 const API_URL = import.meta.env.VITE_API_URL || 'https://lm-4nya.onrender.com/api';
 
 const Dashboard = () => {
-  const { token, logout } = useContext(AuthContext);
+  const { user, token, logout } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState('overview');
   const [books, setBooks] = useState([]);
   const [stats, setStats] = useState({});
@@ -195,6 +195,7 @@ const Dashboard = () => {
             loading={loading}
             onDelete={handleDeleteBook}
             onRefresh={fetchBooks}
+            userRole={user?.role}
           />
         );
       case 'add':

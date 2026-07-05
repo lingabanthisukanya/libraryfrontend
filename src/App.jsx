@@ -15,11 +15,11 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
 
-          {/* Protected Routes (Admin only) */}
+          {/* Protected Routes (Admin & Librarian) */}
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute requiredRole="Admin">
+              <ProtectedRoute>
                 <Dashboard />
               </ProtectedRoute>
             }

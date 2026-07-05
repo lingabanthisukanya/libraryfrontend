@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Trash2, BookOpen, AlertCircle, RefreshCw } from 'lucide-react';
 
-const BookListTable = ({ books, loading, onDelete, onRefresh }) => {
+const BookListTable = ({ books, loading, onDelete, onRefresh, userRole }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Filter books by Title or Author
@@ -66,7 +66,7 @@ const BookListTable = ({ books, loading, onDelete, onRefresh }) => {
                 <th className="py-4.5 px-6">Category</th>
                 <th className="py-4.5 px-6 text-center">Copies Status</th>
                 <th className="py-4.5 px-6">Status</th>
-                <th className="py-4.5 px-6 text-right">Actions</th>
+                {userRole === 'Admin' && <th className="py-4.5 px-6 text-right">Actions</th>}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800/30 text-sm">
@@ -151,15 +151,17 @@ const BookListTable = ({ books, loading, onDelete, onRefresh }) => {
                       </td>
 
                       {/* Actions */}
-                      <td className="py-4 px-6 text-right">
-                        <button
-                          onClick={() => handleDelete(book._id, book.title)}
-                          className="p-2 text-gray-500 hover:text-red-400 hover:bg-red-500/5 border border-transparent hover:border-red-500/10 rounded-xl transition-all duration-300 cursor-pointer"
-                          title="Delete Book"
-                        >
-                          <Trash2 className="w-5 h-5" />
-                        </button>
-                      </td>
+                      {userRole === 'Admin' && (
+                        <td className="py-4 px-6 text-right">
+                          <button
+                            onClick={() => handleDelete(book._id, book.title)}
+                            className="p-2 text-gray-500 hover:text-red-400 hover:bg-red-500/5 border border-transparent hover:border-red-500/10 rounded-xl transition-all duration-300 cursor-pointer"
+                            title="Delete Book"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   );
                 })
