@@ -8,7 +8,7 @@ const OverviewDashboard = ({ stats, loading, onRefresh }) => {
     availableBooks = 0,
     issuedBooks = 0,
     activeUsers = 0,
-    recentEnrollments = [],
+    recentTransactions = [],
   } = stats || {};
 
   // Formatter for join dates
@@ -66,7 +66,7 @@ const OverviewDashboard = ({ stats, loading, onRefresh }) => {
       {/* Welcome Banner */}
       <div>
         <h1 className="text-3xl font-extrabold text-white tracking-tight">System Overview</h1>
-        <p className="text-sm text-gray-400 mt-1">Real-time statistics and enrollment logs</p>
+        <p className="text-sm text-gray-400 mt-1">Real-time statistics and recent transaction activity</p>
       </div>
 
       {/* Grid of Counter Cards */}
@@ -98,11 +98,11 @@ const OverviewDashboard = ({ stats, loading, onRefresh }) => {
         })}
       </div>
 
-      {/* Recent Enrollments Table Section */}
+      {/* Recent Transactions Table Section */}
       <div className="space-y-4">
         <div>
-          <h3 className="text-lg font-bold text-gray-200">Recent Enrollments</h3>
-          <p className="text-xs text-gray-400 mt-0.5">The 5 most recently registered users in the database</p>
+          <h3 className="text-lg font-bold text-gray-200">Recent Transactions</h3>
+          <p className="text-xs text-gray-400 mt-0.5">The 5 most recently processed book loans</p>
         </div>
 
         <div className="glass rounded-3xl overflow-hidden shadow-xl border border-gray-800/40">
@@ -110,55 +110,63 @@ const OverviewDashboard = ({ stats, loading, onRefresh }) => {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-[#0f172a]/60 border-b border-gray-800/40 text-gray-400 text-xs font-semibold uppercase tracking-wider">
-                  <th className="py-4.5 px-6">User Name</th>
-                  <th className="py-4.5 px-6">Email Address</th>
-                  <th className="py-4.5 px-6">Registration Date</th>
+                  <th className="py-4.5 px-6">Book Title</th>
+                  <th className="py-4.5 px-6">Borrower Name</th>
+                  <th className="py-4.5 px-6">Issue Date</th>
+                  <th className="py-4.5 px-6">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800/30 text-sm">
                 {loading ? (
                   <tr>
-                    <td colSpan="3" className="py-12 text-center text-gray-500">
+                    <td colSpan="4" className="py-12 text-center text-gray-500">
                       <div className="inline-flex items-center space-x-2.5 text-indigo-400">
                         <div className="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
-                        <span>Updating enrollment lists...</span>
+                        <span>Updating transaction logs...</span>
                       </div>
                     </td>
                   </tr>
-                ) : recentEnrollments.length === 0 ? (
+                ) : recentTransactions.length === 0 ? (
                   <tr>
-                    <td colSpan="3" className="py-12 text-center text-gray-500">
-                      No user accounts found.
+                    <td colSpan="4" className="py-12 text-center text-gray-500">
+                      No recent transactions found.
                     </td>
                   </tr>
                 ) : (
-                  recentEnrollments.map((user) => (
+                  recentTransactions.map((tx) => (
                     <tr
-                      key={user._id}
+                      key={tx._id}
                       className="hover:bg-gray-800/10 transition-colors duration-200"
                     >
-                      {/* Name */}
+                      {/* Book Title */}
                       <td className="py-4 px-6 font-semibold text-gray-200 flex items-center gap-3">
                         <div className="w-7 h-7 rounded-lg bg-indigo-500/10 border border-indigo-500/15 flex items-center justify-center">
-                          <User className="w-4 h-4 text-indigo-400" />
+                          <BookOpen className="w-4.5 h-4.5 text-indigo-400" />
                         </div>
-                        {user.name}
+                        {tx.bookTitle}
                       </td>
 
-                      {/* Email */}
+                      {/* Borrower Name */}
                       <td className="py-4 px-6 text-gray-400 font-medium">
                         <div className="flex items-center gap-2">
-                          <Mail className="w-4 h-4 text-gray-600" />
-                          {user.email}
+                          <User className="w-4 h-4 text-gray-600" />
+                          {tx.userName}
                         </div>
                       </td>
 
-                      {/* Join Date */}
+                      {/* Issue Date */}
                       <td className="py-4 px-6 text-gray-500">
                         <div className="flex items-center gap-2">
                           <Calendar className="w-4 h-4 text-gray-600" />
-                          {formatDate(user.createdAt)}
+                          {formatDate(tx.issueDate)}
                         </div>
+                      </td>
+
+                      {/* Status */}
+                      <td className="py-4 px-6">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 bg-amber-500/5 border border-amber-500/25 px-2.5 py-1 rounded-full">
+                          {tx.status || 'Issued'}
+                        </span>
                       </td>
                     </tr>
                   ))
